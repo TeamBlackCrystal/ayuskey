@@ -96,7 +96,7 @@ specifiers:
   bootstrap-vue: 2.23.1
   broadcast-channel: 4.14.0
   bull: 4.10.2
-  cacheable-lookup: 6.1.0
+  cacheable-lookup: 7.0.0
   cafy: 15.2.1
   cbor: 8.1.0
   chalk: 4.1.2
@@ -292,7 +292,7 @@ dependencies:
   bootstrap-vue: 2.23.1_vue@2.7.14
   broadcast-channel: 4.14.0
   bull: 4.10.2
-  cacheable-lookup: 6.1.0
+  cacheable-lookup: 7.0.0
   cafy: 15.2.1
   cbor: 8.1.0
   chalk: 4.1.2
@@ -2897,9 +2897,9 @@ packages:
     engines: {node: '>=10.6.0'}
     dev: false
 
-  /cacheable-lookup/6.1.0:
-    resolution: {integrity: sha512-KJ/Dmo1lDDhmW2XDPMo+9oiy/CeqosPguPCrgcVzKyZrL6pM1gU2GmPY/xo6OQPTUaA/c0kwHuywB4E6nmT9ww==}
-    engines: {node: '>=10.6.0'}
+  /cacheable-lookup/7.0.0:
+    resolution: {integrity: sha512-+qJyx4xiKra8mZrcwhjMRMUhD5NR1R8esPkzIYxX96JiecFoxAXFuz/GpR3+ev4PE1WamHip78wV0vcmPQtp8w==}
+    engines: {node: '>=14.16'}
     dev: false
 
   /cacheable-request/7.0.2:
