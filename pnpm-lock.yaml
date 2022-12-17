@@ -134,7 +134,7 @@ specifiers:
   gulp-terser: 2.1.0
   gulp-tslint: 8.1.4
   hard-source-webpack-plugin: 0.13.1
-  highlight.js: 10.7.3
+  highlight.js: 11.7.0
   hpagent: 1.2.0
   html-minifier: 4.0.0
   http-signature: 1.3.6
@@ -323,7 +323,7 @@ dependencies:
   gulp-terser: 2.1.0
   gulp-tslint: 8.1.4_tslint@5.20.1
   hard-source-webpack-plugin: 0.13.1_webpack@5.75.0
-  highlight.js: 10.7.3
+  highlight.js: 11.7.0
   hpagent: 1.2.0
   html-minifier: 4.0.0
   http-signature: 1.3.6
@@ -6134,6 +6134,11 @@ packages:
 
   /highlight.js/10.7.3:
     resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
+    dev: false
+
+  /highlight.js/11.7.0:
+    resolution: {integrity: sha512-1rRqesRFhMO/PRF+G86evnyJkCgaZFOI+Z6kdj15TA18funfoqJXvgPCLSf0SWq3SRfg1j3HlDs8o4s3EGq1oQ==}
+    engines: {node: '>=12.0.0'}
     dev: false
 
   /highlightjs/9.16.2:
