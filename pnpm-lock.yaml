@@ -174,7 +174,7 @@ specifiers:
   oauth: 0.10.0
   object-assign-deep: 0.4.0
   os-utils: 0.0.14
-  parse5: 6.0.1
+  parse5: 7.1.2
   parsimmon: 1.18.1
   pg: 8.8.0
   photoswipe: 5.3.4
@@ -361,7 +361,7 @@ dependencies:
   oauth: 0.10.0
   object-assign-deep: 0.4.0
   os-utils: 0.0.14
-  parse5: 6.0.1
+  parse5: 7.1.2
   parsimmon: 1.18.1
   pg: 8.8.0
   photoswipe: 5.3.4
@@ -1240,7 +1240,7 @@ packages:
     dependencies:
       '@types/node': 18.11.9
       '@types/tough-cookie': 4.0.2
-      parse5: 7.1.1
+      parse5: 7.1.2
     dev: true
 
   /@types/json-schema/7.0.11:
@@ -7041,7 +7041,7 @@ packages:
       https-proxy-agent: 5.0.1
       is-potential-custom-element-name: 1.0.1
       nwsapi: 2.2.2
-      parse5: 7.1.1
+      parse5: 7.1.2
       saxes: 6.0.0
       symbol-tree: 3.2.4
       tough-cookie: 4.1.2
@@ -8959,8 +8959,8 @@ packages:
     resolution: {integrity: sha512-Ofn/CTFzRGTTxwpNEs9PP93gXShHcTq255nzRYSKe8AkVpZY7e1fpmTfOyoIvjP5HG7Z2ZM7VS9PPhQGW2pOpw==}
     dev: false
 
-  /parse5/7.1.1:
-    resolution: {integrity: sha512-kwpuwzB+px5WUg9pyK0IcK/shltJN5/OVhQagxhCQNtT9Y9QRZqNY2e1cmbu/paRh5LMnz/oVTVLBpjFmMZhSg==}
+  /parse5/7.1.2:
+    resolution: {integrity: sha512-Czj1WaSVpaoj0wbhMzLmWD69anp2WH7FXMB9n1Sy8/ZFF9jolSQVMu1Ij5WIyGmcBmhk7EOndpO4mIpihVqAXw==}
     dependencies:
       entities: 4.4.0
 
