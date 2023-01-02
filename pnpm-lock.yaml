@@ -219,7 +219,7 @@ specifiers:
   textarea-caret: 3.1.0
   three: 0.134.0
   throttle-debounce: 4.0.1
-  tinycolor2: 1.4.2
+  tinycolor2: 1.5.2
   tmp: 0.2.1
   ts-loader: 9.4.2
   ts-node: 10.9.1
@@ -405,7 +405,7 @@ dependencies:
   textarea-caret: 3.1.0
   three: 0.134.0
   throttle-debounce: 4.0.1
-  tinycolor2: 1.4.2
+  tinycolor2: 1.5.2
   tmp: 0.2.1
   ts-loader: 9.4.2_3fkjkrd3audxnith3e7fo4fnxi
   ts-node: 10.9.1_3v2cms72gsblw7jmali7btb3pu
@@ -11456,8 +11456,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /tinycolor2/1.4.2:
-    resolution: {integrity: sha512-vJhccZPs965sV/L2sU4oRQVAos0pQXwsvTLkWYdqJ+a8Q5kPFzJTuOFwy7UniPli44NKQGAglksjvOcpo95aZA==}
+  /tinycolor2/1.5.2:
+    resolution: {integrity: sha512-h80m9GPFGbcLzZByXlNSEhp1gf8Dy+VX/2JCGUZsWLo7lV1mnE/XlxGYgRBoMLJh1lIDXP0EMC4RPTjlRaV+Bg==}
     dev: false
 
   /tmp/0.2.1:
@@ -12247,7 +12247,7 @@ packages:
       clamp: 1.0.1
       lodash.throttle: 4.1.1
       material-colors: 1.2.6
-      tinycolor2: 1.4.2
+      tinycolor2: 1.5.2
     dev: false
 
   /vue-content-loading/1.6.0:
