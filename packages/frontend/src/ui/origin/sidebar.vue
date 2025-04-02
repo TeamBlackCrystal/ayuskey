@@ -59,14 +59,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 	// import { StickySidebar } from '@/scripts/sticky-sidebar.js';
 	// import { mainRouter } from '@/router.js';
 	//import MisskeyLogo from '@assets/client/misskey.svg';
-	import { defaultStore } from '@/store.js';
+	import { store } from '@/store.js';
 	import { instance } from '@/instance.js';
 	import { i18n } from '@/i18n.js';
 	
 	const WINDOW_THRESHOLD = 1400;
 	
-	const menu = ref(defaultStore.state.menu);
-	const menuDisplay = computed(defaultStore.makeGetterSetter('menuDisplay'));
+	const menu = ref(store.s.menu);
+	const menuDisplay = computed(store.makeGetterSetter('menuDisplay'));
 	const otherNavItemIndicated = computed<boolean>(() => {
 		for (const def in navbarItemDef) {
 			if (menu.value.includes(def)) continue;
@@ -86,9 +86,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 	}
 	
 	function more(ev: MouseEvent) {
-		os.popup(defineAsyncComponent(() => import('@/components/MkLaunchPad.vue')), {
+		const { dispose } = os.popup(defineAsyncComponent(() => import('@/components/MkLaunchPad.vue')), {
 			src: ev.currentTarget ?? ev.target,
-		}, {}, 'closed');
+		}, {
+			close: () => dispose(),
+		});
 	}
 	
 	function openAccountMenu(ev: MouseEvent) {
@@ -97,7 +99,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		}, ev);
 	}
 	
-	watch(defaultStore.reactiveState.menuDisplay, () => {
+	watch(store.r.menuDisplay, () => {
 		calcViewState();
 	});
 	

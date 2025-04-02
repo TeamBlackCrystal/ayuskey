@@ -23,7 +23,7 @@ export async function warningExternalWebsite(ev: MouseEvent, url: string) {
 		} else if (expression.includes(' ')) return expression.split(' ').every(keyword => url.includes(keyword));
 		else return domain.endsWith(expression);
 	});
-	const isTrustedByUser = store.reactiveState.trustedExternalWebsites.value.includes(domain);
+	const isTrustedByUser = store.r.trustedExternalWebsites.value.includes(domain);
 
 	if (!self && !isTrustedByInstance && !isTrustedByUser) {
 		ev.preventDefault();

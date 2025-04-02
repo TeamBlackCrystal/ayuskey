@@ -53,15 +53,15 @@ SPDX-License-Identifier: AGPL-3.0-only
 	import { navbarItemDef } from '@/navbar.js';
 	import { openAccountMenu as openAccountMenu_, $i } from '@/account.js';
 	import MkButton from '@/components/MkButton.vue';
-	import { defaultStore } from '@/store.js';
+	import { store } from '@/store.js';
 	import { instance } from '@/instance.js';
 	import { i18n } from '@/i18n.js';
 	
 	const WINDOW_THRESHOLD = 1400;
 	
 	const settingsWindowed = ref(window.innerWidth > WINDOW_THRESHOLD);
-	const menu = ref(defaultStore.state.menu);
-	// const menuDisplay = computed(defaultStore.makeGetterSetter('menuDisplay'));
+	const menu = ref(store.s.menu);
+	// const menuDisplay = computed(store.makeGetterSetter('menuDisplay'));
 	const otherNavItemIndicated = computed<boolean>(() => {
 		for (const def in navbarItemDef) {
 			if (menu.value.includes(def)) continue;
@@ -71,11 +71,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 	});
 	
 	function more(ev: MouseEvent) {
-		os.popup(defineAsyncComponent(() => import('@/components/MkLaunchPad.vue')), {
+		const { dispose } = os.popup(defineAsyncComponent(() => import('@/components/MkLaunchPad.vue')), {
 			src: ev.currentTarget ?? ev.target,
 			anchor: { x: 'center', y: 'bottom' },
 		}, {
-		}, 'closed');
+			close: () => dispose(),
+		});
 	}
 	
 	function openAccountMenu(ev: MouseEvent) {

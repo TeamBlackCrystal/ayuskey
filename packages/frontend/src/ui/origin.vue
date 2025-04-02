@@ -26,7 +26,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</div>
 		</div>
 	
-		<Transition :name="defaultStore.state.animation ? 'tray-back' : ''">
+		<Transition :name="store.s.animation ? 'tray-back' : ''">
 			<div
 				v-if="widgetsShowing"
 				class="tray-back _modalBg"
@@ -35,11 +35,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 			></div>
 		</Transition>
 	
-		<Transition :name="defaultStore.state.animation ? 'tray' : ''">
+		<Transition :name="store.s.animation ? 'tray' : ''">
 			<XWidgets v-if="widgetsShowing" class="tray"/>
 		</Transition>
 	
-		<iframe v-if="defaultStore.state.aiChanMode" ref="live2d" class="ivnzpscs" src="https://misskey-dev.github.io/mascot-web/?scale=2&y=1.4"></iframe>
+		<iframe v-if="store.s.aiChanMode" ref="live2d" class="ivnzpscs" src="https://misskey-dev.github.io/mascot-web/?scale=2&y=1.4"></iframe>
 	
 		<XCommon/>
 	</div>
@@ -53,7 +53,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 	import { StickySidebar } from '@/scripts/sticky-sidebar.js';
 	import * as os from '@/os.js';
 	import { PageMetadata, provideMetadataReceiver, provideReactiveMetadata } from '@/scripts/page-metadata.js';
-	import { defaultStore } from '@/store.js';
+	import { store } from '@/store.js';
 	import { i18n } from '@/i18n.js';
 	import { miLocalStorage } from '@/local-storage.js';
 	import { mainRouter } from '@/router/main.js';
@@ -71,7 +71,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 	const fullView = ref(false);
 	const globalHeaderHeight = ref(0);
 	const wallpaper = miLocalStorage.getItem('wallpaper') != null;
-	const showMenuOnTop = computed(() => defaultStore.state.menuDisplay === 'top');
+	const showMenuOnTop = computed(() => store.s.menuDisplay === 'top');
 	const live2d = shallowRef<HTMLIFrameElement>();
 	const widgetsLeft = ref<HTMLElement>();
 	const widgetsRight = ref<HTMLElement>();
@@ -93,7 +93,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 	provide('forceSpacerMin', true);
 	
 	function attachSticky(el: HTMLElement) {
-		const sticky = new StickySidebar(el, 0, defaultStore.state.menuDisplay === 'top' ? 60 : 0); // TODO: ヘッダーの高さを60pxと決め打ちしているのを直す
+		const sticky = new StickySidebar(el, 0, store.s.menuDisplay === 'top' ? 60 : 0); // TODO: ヘッダーの高さを60pxと決め打ちしているのを直す
 		window.addEventListener('scroll', () => {
 			sticky.calc(window.scrollY);
 		}, { passive: true });
@@ -145,9 +145,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 	
 	document.documentElement.style.overflowY = 'scroll';
 	
-	defaultStore.loaded.then(() => {
-		if (defaultStore.state.widgets.length === 0) {
-			defaultStore.set('widgets', [{
+	store.loaded.then(() => {
+		if (store.s.widgets.length === 0) {
+			store.set('widgets', [{
 				name: 'calendar',
 				id: 'a', place: null, data: {},
 			}, {
@@ -165,7 +165,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			isDesktop.value = (window.innerWidth >= DESKTOP_THRESHOLD);
 		}, { passive: true });
 	
-		if (defaultStore.state.aiChanMode) {
+		if (store.s.aiChanMode) {
 			const iframeRect = live2d.value.getBoundingClientRect();
 			window.addEventListener('mousemove', ev => {
 				live2d.value.contentWindow.postMessage({
