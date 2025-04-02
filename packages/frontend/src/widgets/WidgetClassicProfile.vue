@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 <template>
 <div class="_panel">
 	<MkContainer>
-			<div :class="$style.banner" :style="{ backgroundImage: $i.bannerUrl ? `url(${ $i.bannerUrl })` : null}" @click="changeBanner"></div>
+			<div :class="$style.banner" :style="$i.bannerUrl ? { backgroundImage: `url(${ $i.bannerUrl })` } : undefined" @click="changeBanner"></div>
 			<div :class="$style.avatarContainer">
 				<MkAvatar :class="$style.avatar" :user="$i" @click="changeAvatar"/>
 				<MkA :class="$style.name" :to="userPage($i)" >
@@ -21,13 +21,16 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { useWidgetPropsManager, Widget, WidgetComponentExpose } from './widget';
-import { GetFormResultType } from '@/scripts/form';
-import { $i } from '@/account';
+import { useWidgetPropsManager } from './widget';
+import type { Widget, WidgetComponentExpose } from './widget';
+import type { GetFormResultType } from '@/utility/form';
 import { userPage } from '@/filters/user';
 import { i18n } from '@/i18n';
-import { selectFile } from '@/scripts/select-file';
+import { selectFile } from '@/utility/select-file';
 import * as os from '@/os';
+import { ensureSignin } from '@/i.js';
+
+const $i = ensureSignin();
 
 const name = 'classicProfile';
 
