@@ -3695,10 +3695,6 @@ export interface Locale extends ILocale {
      */
     "makeReactionsPublicDescription": string;
     /**
-     * クラシック
-     */
-    "classic": string;
-    /**
      * オリジン
      */
     "origin": string;
