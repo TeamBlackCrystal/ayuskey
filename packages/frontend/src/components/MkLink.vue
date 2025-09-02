@@ -32,7 +32,6 @@ const props = withDefaults(defineProps<{
 	rel: 'nofollow noopener',
 });
 
-// eslint-disable-next-line vue/no-setup-props-destructure
 const maybeRelativeUrl = maybeMakeRelative(props.url, local);
 const self = maybeRelativeUrl !== props.url;
 
