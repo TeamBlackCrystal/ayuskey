@@ -78,7 +78,7 @@ function subscribe() {
 	// SEE: https://developer.mozilla.org/en-US/docs/Web/API/PushManager/subscribe#Parameters
 	return promiseDialog(registration.value.pushManager.subscribe({
 		userVisibleOnly: true,
-		applicationServerKey: urlBase64ToBase64(instance.swPublickey),
+		applicationServerKey: urlBase64ToUint8Array(instance.swPublickey),
 	})
 		.then(async subscription => {
 			pushSubscription.value = subscription;
@@ -90,7 +90,7 @@ function subscribe() {
 				publickey: encode(subscription.getKey('p256dh')),
 			});
 		}, async err => { // When subscribe failed
-		// 通知が許可されていなかったとき
+			// 通知が許可されていなかったとき
 			if (err?.name === 'NotAllowedError') {
 				console.info('User denied the notification permission request.');
 				return;
@@ -114,14 +114,13 @@ async function unsubscribe() {
 
 	if ($i && accounts.length >= 2) {
 		apiWithDialog('sw/unregister', {
-			i: $i.token,
 			endpoint,
-		});
+		}, $i.token);
 	} else {
 		pushSubscription.value.unsubscribe();
 		apiWithDialog('sw/unregister', {
 			endpoint,
-		});
+		}, null);
 		pushSubscription.value = null;
 	}
 }
@@ -131,16 +130,22 @@ function encode(buffer: ArrayBuffer | null) {
 }
 
 /**
- * Convert the URL safe base64 string to a base64 string
+ * Convert the URL safe base64 string to a Uint8Array
  * @param base64String base64 string
  */
-function urlBase64ToBase64(base64String: string): string {
+function urlBase64ToUint8Array(base64String: string): BufferSource {
 	const padding = '='.repeat((4 - base64String.length % 4) % 4);
 	const base64 = (base64String + padding)
 		.replace(/-/g, '+')
 		.replace(/_/g, '/');
 
-	return base64;
+	const rawData = window.atob(base64);
+	const outputArray = new Uint8Array(rawData.length);
+
+	for (let i = 0; i < rawData.length; ++i) {
+		outputArray[i] = rawData.charCodeAt(i);
+	}
+	return outputArray;
 }
 
 if (navigator.serviceWorker == null) {
