@@ -21,7 +21,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		</div>
 		<div :class="$style.buttons">
 			<MkButton data-cy-modal-dialog-cancel inline rounded @click="cancel">{{ i18n.ts.cancel }}</MkButton>
-			<MkButton data-cy-modal-dialog-ok inline primary rounded @click="ok"><i class="ti ti-external-link"></i> {{ i18n.ts.open }}</MkButton>
+			<MkButton data-cy-modal-dialog-ok inline primary rounded @click="ok"><i class="ti ti-external-link"></i> {{ i18n.ts.openInNewTab }}</MkButton>
 		</div>
 	</div>
 </MkModal>
@@ -33,7 +33,7 @@ import MkModal from '@/components/MkModal.vue';
 import MkButton from '@/components/MkButton.vue';
 import MkSwitch from '@/components/MkSwitch.vue';
 import { i18n } from '@/i18n.js';
-import { defaultStore } from '@/store.js';
+import { store } from '@/store.js';
 import { instanceName } from '@@/js/config';
 
 type Result = string | number | true | null;
@@ -62,8 +62,8 @@ function done(canceled: boolean, result?: Result): void { // eslint-disable-line
 
 async function ok() {
 	const result = true;
-	if (!defaultStore.state.trustedExternalWebsites.includes(domain.value) && trustThisDomain.value) {
-		await defaultStore.set('trustedExternalWebsites', defaultStore.state.trustedExternalWebsites.concat(domain.value));
+	if (!store.s.trustedExternalWebsites.includes(domain.value) && trustThisDomain.value) {
+		await store.set('trustedExternalWebsites', store.s.trustedExternalWebsites.concat(domain.value));
 	}
 	done(false, result);
 }

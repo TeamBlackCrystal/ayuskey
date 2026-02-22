@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 <template>
 <div class="_panel">
 	<MkContainer>
-			<div :class="$style.banner" :style="{ backgroundImage: $i.bannerUrl ? `url(${ $i.bannerUrl })` : null}" @click="changeBanner"></div>
+			<div :class="$style.banner" :style="$i.bannerUrl ? { backgroundImage: `url(${ $i.bannerUrl })` } : undefined" @click="changeBanner"></div>
 			<div :class="$style.avatarContainer">
 				<MkAvatar :class="$style.avatar" :user="$i" @click="changeAvatar"/>
 				<MkA :class="$style.name" :to="userPage($i)" >
@@ -21,13 +21,17 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { useWidgetPropsManager, Widget, WidgetComponentExpose } from './widget';
-import { GetFormResultType } from '@/scripts/form';
-import { $i } from '@/account';
+import { useWidgetPropsManager } from './widget';
+import type { Widget, WidgetComponentExpose } from './widget';
+import type { GetFormResultType } from '@/utility/form';
 import { userPage } from '@/filters/user';
 import { i18n } from '@/i18n';
-import { selectFile } from '@/scripts/select-file';
+import { chooseDriveFile } from '@/utility/drive';
 import * as os from '@/os';
+import { ensureSignin } from '@/i.js';
+import { claimAchievement } from '@/utility/achievements';
+
+const $i = ensureSignin();
 
 const name = 'classicProfile';
 
@@ -55,49 +59,100 @@ defineExpose<WidgetComponentExpose>({
 });
 
 function changeAvatar(ev) {
-	selectFile(ev.currentTarget ?? ev.target, i18n.ts.avatar).then(async (file) => {
-		let originalOrCropped = file;
-
-		const { canceled } = await os.confirm({
-			type: 'question',
-			text: i18n.t('cropImageAsk'),
-		});
-
-		if (!canceled) {
-			originalOrCropped = await os.cropImage(file, {
-				aspectRatio: 1,
-			});
-		}
-
+	async function done(driveFile) {
 		const i = await os.apiWithDialog('i/update', {
-			avatarId: originalOrCropped.id,
+			avatarId: driveFile.id,
 		});
 		$i.avatarId = i.avatarId;
 		$i.avatarUrl = i.avatarUrl;
-	});
+		claimAchievement('profileFilled');
+	}
+
+	os.popupMenu([{
+		text: i18n.ts.avatar,
+		type: 'label',
+	}, {
+		text: i18n.ts.upload,
+		icon: 'ti ti-upload',
+		action: async () => {
+			const files = await os.chooseFileFromPc({ multiple: false });
+			const file = files[0];
+
+			let originalOrCropped = file;
+
+			const { canceled } = await os.confirm({
+				type: 'question',
+				text: i18n.ts.cropImageAsk,
+				okText: i18n.ts.cropYes,
+				cancelText: i18n.ts.cropNo,
+			});
+
+			if (!canceled) {
+				originalOrCropped = await os.cropImageFile(file, {
+					aspectRatio: 1,
+				});
+			}
+
+			const driveFile = (await os.launchUploader([originalOrCropped], { multiple: false }))[0];
+			done(driveFile);
+		},
+	}, {
+		text: i18n.ts.fromDrive,
+		icon: 'ti ti-cloud',
+		action: () => {
+			chooseDriveFile({ multiple: false }).then(files => {
+				done(files[0]);
+			});
+		},
+	}], ev.currentTarget ?? ev.target);
 }
 
 function changeBanner(ev) {
-	selectFile(ev.currentTarget ?? ev.target, i18n.ts.banner).then(async (file) => {
-		let originalOrCropped = file;
-
-		const { canceled } = await os.confirm({
-			type: 'question',
-			text: i18n.t('cropImageAsk'),
-		});
-
-		if (!canceled) {
-			originalOrCropped = await os.cropImage(file, {
-				aspectRatio: 2,
-			});
-		}
-
+	async function done(driveFile) {
 		const i = await os.apiWithDialog('i/update', {
-			bannerId: originalOrCropped.id,
+			bannerId: driveFile.id,
 		});
 		$i.bannerId = i.bannerId;
 		$i.bannerUrl = i.bannerUrl;
-	});
+	}
+
+	os.popupMenu([{
+		text: i18n.ts.banner,
+		type: 'label',
+	}, {
+		text: i18n.ts.upload,
+		icon: 'ti ti-upload',
+		action: async () => {
+			const files = await os.chooseFileFromPc({ multiple: false });
+			const file = files[0];
+
+			let originalOrCropped = file;
+
+			const { canceled } = await os.confirm({
+				type: 'question',
+				text: i18n.ts.cropImageAsk,
+				okText: i18n.ts.cropYes,
+				cancelText: i18n.ts.cropNo,
+			});
+
+			if (!canceled) {
+				originalOrCropped = await os.cropImageFile(file, {
+					aspectRatio: 2,
+				});
+			}
+
+			const driveFile = (await os.launchUploader([originalOrCropped], { multiple: false }))[0];
+			done(driveFile);
+		},
+	}, {
+		text: i18n.ts.fromDrive,
+		icon: 'ti ti-cloud',
+		action: () => {
+			chooseDriveFile({ multiple: false }).then(files => {
+				done(files[0]);
+			});
+		},
+	}], ev.currentTarget ?? ev.target);
 }
 </script>
 
